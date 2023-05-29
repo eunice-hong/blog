@@ -19,5 +19,5 @@ jobs:
       # Standard usage
       - uses: helaili/jekyll-action@2.5.0
         with:
-          token: ${{ secrets.JEKYLL_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           build_dir: ./_site
