@@ -11,6 +11,7 @@ plugins:
   - jemoji
   - jekyll-paginate-v2
 
+baseurl: "" # the subpath of your site, e.g. /blog
 permalink: /:title/
 
 languages: [ "ko", "en" ]
