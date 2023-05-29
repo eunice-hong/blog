@@ -1,64 +1,62 @@
+---
+layout: compress
+---
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
+    {% if site.analytics-google %}
+        {% include analytics-google.html %}
+    {% endif %}
+
     <meta charset="utf-8">
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <title>{{ page.title }}</title>
-    <meta content="width=device-width" name="viewport">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name=author content="{{ site.title }}">
 
-    <!-- syntax highlighting CSS -->
-    <link href="{{ site.baseurl_root }}/css/syntax.css" rel="stylesheet">
+    {% seo %}
 
-    <!-- Custom CSS -->
-    <link href="{{ site.baseurl_root }}/css/main.css" rel="stylesheet">
+    {% include favicon.html %}
 
-    <!-- Responsive CSS -->
-    <link href="{{ site.baseurl_root }}/css/responsive.css" rel="stylesheet">
+    <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}{{ "/feed.xml" }}" />
 
-    <!-- Google Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700'
-          rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,700' rel='stylesheet'
-          type='text/css'>
+    <script src="https://kit.fontawesome.com/d9b09040a7.js" crossorigin="anonymous"></script>
+
+    <style>
+    
+    {% if site.dark-theme == "auto" %}
+        {% capture scss_sheet %}
+            {% include style.scss %}
+            @media (prefers-color-scheme: dark) {
+                {% include style-dark.scss %}
+            }
+        {% endcapture %}
+    {% elsif site.dark-theme %}
+        {% capture scss_sheet %}{% include style-dark.scss %}{% endcapture %}
+    {% else %}
+        {% capture scss_sheet %}{% include style.scss %}{% endcapture %}
+    {% endif %}
+
+    {{ scss_sheet | scssify }}
+    </style>
+
 </head>
 <body>
-<div class="site">
-    <div class="sidebar" id="sidebar">
-        <div class="header">
-            {% if site.lang == "ko" and site.default_locale_in_subfolder != true %}
-            <h3 class="title"><a href="{{ site.baseurl_root }}/">쏙쏙 들어오는 함수형 코딩</a></h3>
+    <div class="wrapper-{% if site.width == "normal" %}normal{% elsif site.width == "large" %}large{% endif %}">
+        {% if page.layout == "post" %}
+            <div class="post">
+        {% else %}
+            {% if showHeader != true %}
+                <div class="page {{ page.title | downcase }}">
             {% else %}
-            <h3 class="title"><a href="{{ site.baseurl_root }}/{{ site.lang }}">Grokking
-                simplicity</a></h3>
+                <div class="{{ page.title | downcase }}">
             {% endif %}
-        </div>
-        <div class="posts">
-            <ul class="posts-list">
-                {% for post in site.posts %}
-                <li class="post-link">
-                    <a class="post-title" href="{{ site.baseurl }}{{ post.url }}">
-                        {{ post.title }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="footer">
-          <span id="footer-links">
-            <a class="footer-link" href="{{ site.baseurl }}/about">{% t global.about %}</a> <span
-                  class="separator">&bull;</span>
-            <a class="footer-link" href="">{% t global.github %}</a>
-          </span>
-        </div>
-        {% tf footer.md %}
-        <br/>
-        <a class="link-ko" href="{% tl root ko %}">ko</a>
-        <a class="link-en" href="{% tl root en %}">en</a>
+        {% endif %}
+
+            {{ content }}
+            </div>
+                </div>
+            </div>
     </div>
-
-    {{ content }}
-
-</div>
-<script src="{{ site.baseurl_root }}/scripts/responsive.js" type="text/javascript"></script>
 </body>
 </html>
