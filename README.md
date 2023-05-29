@@ -1,9 +1,9 @@
 
-# grokking-simplicity
+# Eunice Hong Blog
 
-쏙쏙 들어오는 함수형 코딩 - 심플한 코드로 복잡한 소프트웨어 길들이기 학습 노트
+[![Build Status](https://github.com/eunice-hong/blog/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/eunice-hong/blog/actions/workflows/pages/pages-build-deployment)
 
-👉 [eunice-hong.github.io/grokking-simplicity](https://eunice-hong.github.io/grokking-simplicity) 보러가기
+![Jekyll Badge](https://img.shields.io/badge/powered%20by-jekyll-red.svg)
 
 ## Run Locally
 
@@ -13,7 +13,7 @@ bundle exec jekyll serve
 
 ## Roadmap
 
-- [마일스톤](https://github.com/eunice-hong/grokking-simplicity/milestones)을 확인하세요.
+- Check out [Milestones](https://github.com/eunice-hong/blog/milestones).
 
 ## Authors
 
@@ -21,4 +21,4 @@ bundle exec jekyll serve
 
 ## Acknowledgements
 
-- [Grokking Simplicity 공식](https://grokkingsimplicity.com/)
+- [Jekyll Theme Indigo](https://github.com/sergiokopplin/indigo)
