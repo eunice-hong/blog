@@ -1,3 +1,7 @@
+---
+title: About
+layout: page
+---
 ___Notes from Grokking Simplicity - Level up with functional programming.___
 
 
