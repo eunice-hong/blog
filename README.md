@@ -1,5 +1,6 @@
-
 # Eunice Hong Blog
+
+🌏 English | [**한국어**](https://github.com/eunice-hong/blog/blob/main/README.kr.md)
 
 [![Build Status](https://github.com/eunice-hong/blog/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/eunice-hong/blog/actions/workflows/pages/pages-build-deployment)
 
