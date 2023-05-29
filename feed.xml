@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://blog.eunice-hong.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.eunice-hong.com/" rel="alternate" type="text/html" hreflang="ko" /><updated>2023-05-29T09:04:04+00:00</updated><id>https://blog.eunice-hong.com/feed.xml</id><title type="html">Eunice Hong</title><subtitle>Welcome to my blog. I write about software engineering, books, and life.</subtitle><entry><title type="html">CHAPTER 3 액션과 계산, 데이터의 차이를 알기</title><link href="https://blog.eunice-hong.com/chapter-03/" rel="alternate" type="text/html" title="CHAPTER 3 액션과 계산, 데이터의 차이를 알기" /><published>2023-03-05T05:52:00+00:00</published><updated>2023-03-05T05:52:00+00:00</updated><id>https://blog.eunice-hong.com/chapter-03</id><content type="html" xml:base="https://blog.eunice-hong.com/chapter-03/">&lt;h2 id=&quot;1-데이터&quot;&gt;1. 데이터&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;이벤트에 대한 사실입니다. 일어난 일에 결과를 기록한 것입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;-데이터는-어떻게-구현하나요&quot;&gt;❓ 데이터는 어떻게 구현하나요?&lt;/h4&gt;
+
+&lt;p&gt;자바스크립트 저는 기본 데이터 타입으로 구현합니다. 숫자나 문자, 배열, 객체 같은 것입니다. 다른 언어에서는 더 정교한 방법으로 데이터를 만들 수 있습니다. 하스켈 새로운 데이터 타입을 정리 해 도메인을 표현합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;-데이터에-어떻게-의미를-담을-수-있나요&quot;&gt;❓ 데이터에 어떻게 의미를 담을 수 있나요?&lt;/h4&gt;
+
+&lt;p&gt;데이터 구조로 의미를 담을 수 있습니다. 예를 들어 목록에 순서가 중요하다면 순서를 보장하는 데이터 구조를 사용하면 됩니다. 데이터 구조로 도메인을 표현할 수 있습니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;-불변성&quot;&gt;🔵 불변성&lt;/h4&gt;
+
+&lt;p&gt;함수형 프로그래머는 불변 데이터구조를 만들기 위해 2가지 원칙을 사용합니다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 카피-온-라이트: 변경할때 복사 본을 만듭니다
+2. 방어적 복사: 보관하려고 하는 데이터에 복사본을 만듭니다
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;-예시&quot;&gt;🔵 예시&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;구입하려는 음식 목록&lt;/li&gt;
+  &lt;li&gt;이름&lt;/li&gt;
+  &lt;li&gt;전화번호&lt;/li&gt;
+  &lt;li&gt;음식 조리&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;-장점&quot;&gt;🔵 장점&lt;/h4&gt;
+
+&lt;p&gt;역설적으로 데이터는 데이터 자체로 할 수 있는 곳이 없기 때문에 줬습니다. 그래서 데이터 데이터 그대로 이해할 수 있습니다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 직렬화 - 직렬화된 액션과 계산은 다른 곳에서 잘 작동 할 것이라는 보장이 없습니다. 하지만 진열하는 데이터는 전송하거나 디스크에 저장 했다가 읽기 싶습니다. 여러분에 데이터 오랫동안 잘 사용 되나요? 저는 자신있게 말할 수 없지만 함수 보다는 오래 사용하고 있는 것 같습니다.
+2. 동일성 비교 - 계산이나 액션은 서로 비교 하기 어렵습니다. 하지만 데이터는 비교하기 싶습니다.
+3. 자유로운 해석 -  데이터는 여러 가지 방법으로 해석할 수 있습니다. 접속 로그는 문제 해결을 위해 사용할 수 있지만 모니터링을 위해 사용할 수도 있습니다.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;-단점&quot;&gt;🔵 단점&lt;/h4&gt;
+
+&lt;p&gt;유연하게 해석할 수 있다는 점은 장점이지만 해석이 반드시 필요하다는 점 단점 입니다. 계산은 해석 하지 않아도 실행할 수 있습니다. 하지만 해석 하지 않은 데이터는 쓸모 없는 바이트 일 뿐입니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-계산&quot;&gt;2. 계산&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;계산은 입력값으로 출력값을 만드는 것입니다. 실행 시점과 횟수에 관계없이 같은 입력값에 대해 항상 같은 결과값을 내놓습니다. 보통은 순수 함수 혹은 수학 함수라고 부릅니다. 단 이 책에서는 언어 기능과의 혼동을 피하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;계산&lt;/code&gt;이라고 부릅니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;-계산은-어떻게-구현하나요&quot;&gt;❓ 계산은 어떻게 구현하나요?&lt;/h4&gt;
+
+&lt;p&gt;계산은 함수로 표현합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;-어떻게-계산에-의미를-담을-수-있나요&quot;&gt;❓ 어떻게 계산에 의미를 담을 수 있나요?&lt;/h4&gt;
+
+&lt;p&gt;계산에는 연산을 담을 수 있습니다. 계산은 입력값을 출력값으로 만드는 것을 표현합니다. 계산을 언제 사용할지 또는 어떻게 사용할지는 때에 따라 다릅니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;-왜-액션보다-계산이-좋나요&quot;&gt;❓ 왜 액션보다 계산이 좋나요?&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;테스트 하기 쉽습니다. 계산은 언제 어디서나 (로컬 장비, 필드 서버, 테스트 장비)원하는 만큼 테스트를 실행할 수 있습니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;기계적인 분석이 쉽습니다. 학술연구의 정적분적이라는 것이 있습니다. 정적분 속에서 자동화 된 분석은 중요합니다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;계산은 조합 하기 좋습니다. 계산을 조합해 더 큰 계산을 만들 수 있습니다. 이때 일급 계산을 사용합니다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;-예시-1&quot;&gt;🔵 예시&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;더하기나 곱하기&lt;/li&gt;
+  &lt;li&gt;문자열 합치기&lt;/li&gt;
+  &lt;li&gt;쇼핑 계획하기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;-단점-1&quot;&gt;🔵 단점&lt;/h4&gt;
+
+&lt;p&gt;계산과 액션은 실행하기 전에 어떤 일이 발생 할지 알 수 없다는 단점이 있습니다. 물론 코드를 읽으면 예상할 수 있긴 합니다. 하지만 소프트웨어 측면에서 함수는 블랙박스 입니다. 입력값으로 실행해야 결과를 알 수 있습니다. 이런 단점이 싫다면 개선이나 액션 대신 데이터를 사용합니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-액션&quot;&gt;3. 액션&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;액션은 외부세계 영향을 주거나 받는 것을 말합니다. 그리고 액션은 실행 시점과 횟수에 의존합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;언제 실행 되는지 - 순서&lt;/li&gt;
+  &lt;li&gt;얼마나 실행 되는지 - 반복&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;-액션은-어떻게-구현하나요&quot;&gt;❓ 액션은 어떻게 구현하나요?&lt;/h4&gt;
+
+&lt;p&gt;자바스크립트에서는 함수로 구현합니다 계산도 함수로 구현 하기 때문에 구분 하기 쉽지 않습니다. 앞으로 계산과 액션을 구분 하는 방법을 알아 볼 것입니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;-어떻게-액션에-의미를-담을-수-있나요&quot;&gt;❓ 어떻게 액션에 의미를 담을 수 있나요?&lt;/h4&gt;
+
+&lt;p&gt;액션으로 외부 세상의 영향을 줄 수 있습니다. 따라서 어떤 일을 하려는지 아는 것이 중요합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;-예시-2&quot;&gt;🔵 예시&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;이메일 보내기&lt;/li&gt;
+  &lt;li&gt;계좌에서 인출하기&lt;/li&gt;
+  &lt;li&gt;전역 변수 값 바꾸기&lt;/li&gt;
+  &lt;li&gt;에이젝스 요청 보내기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;-액션을-잘-다루려면&quot;&gt;🔵 액션을 잘 다루려면?&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;가능한 액션을 적게 사용합니다. 액션을 전혀 쓰지 않을 수는 없습니다. 액션 대신 계산을 사용할 수 있는지 생각해 봐야 합니다.&lt;/li&gt;
+  &lt;li&gt;액션은 가능한 작게 만듭니다. 액션에서 액션과 관련 없는 코드는 모두 제거합니다. 예를 들어, 액션에서 결정이나 계획와 관련된 부분은 계산으로 빼낼 수 있습니다.&lt;/li&gt;
+  &lt;li&gt;액션이 외부세계와 상호 작용 하는 것을 제한 할 수 있습니다. 액션은 외부세계 영향을 주거나 받을 수 있습니다. 내부에 계산과 데이터만 있고 가장 바깥쪽에 액션이 있는 구조가 이상적 입니다.&lt;/li&gt;
+  &lt;li&gt;액션이 호출지점에 의존 하는 것을 제한 합니다. 함 수영 프로그램은 액션이 호출 네시쯤 거 패스에 덜 의존하도록 만드는 기술을 알고 있습니다. 그래서 액션을 사용할 때 조금 더 쉽게 사용할 수 있습니다.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>eunice-hong</name></author><category term="book" /><category term="grokking-simplicity" /><summary type="html">1. 데이터</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.eunice-hong.com/assets/images/markdown.jpg" /><media:content medium="image" url="https://blog.eunice-hong.com/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CHAPTER 2 현실에서의 함수형 사고</title><link href="https://blog.eunice-hong.com/chapter-02/" rel="alternate" type="text/html" title="CHAPTER 2 현실에서의 함수형 사고" /><published>2023-03-04T14:15:00+00:00</published><updated>2023-03-04T14:15:00+00:00</updated><id>https://blog.eunice-hong.com/chapter-02</id><content type="html" xml:base="https://blog.eunice-hong.com/chapter-02/">&lt;p&gt;Chapter 2 에서는 토니의 피자가게 이야기를 통해 현실에서 함수형 사고를 어떻게 적용할 수 있는지 알아보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;토니는 모든 것이 소프트웨어로 만들어진 2118년에 피자가게를 운영하고 있습니다. 최근 피자가게의 매출이 좋아 토니는 사업 확장을 계획하고 있습니다. 토니는 코드를 변경할 때 드는 비용을 줄이려면, 함수형 사고로 코드를 짜는 것이 좋다고 알고 있습니다. 그래서 먼저 토니는 피자가게와 관련된 코드를 액션, 계산, 데이터로 분류했습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;액션: 반죽 펴기, 피자 배달, 재료 주문 등&lt;/li&gt;
+  &lt;li&gt;계산: 조리법에 나온 것을 두배로 만들기, 재료 주문 목록 결정 등&lt;/li&gt;
+  &lt;li&gt;데이터: 조리법, 고객 주문, 영수증 등&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;그 다음, 토니는 코드를 변경 가능성을 기준으로 다음과 같이 계층화하였습니다. 토니는 &lt;strong&gt;&lt;em&gt;계층형 설계&lt;/em&gt;&lt;/strong&gt;로 코드를 비즈니스 규칙, 도메인 규칙, 기술 스택 계층으로 나누었습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0020-01.jpg&quot; alt=&quot;Organizing code by “rate of change”&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;토니네 피자가게는 로봇 하나로 피자를 만들고 있습니다. 토니는 로봇을 하나에서 셋으로 늘려, 피자를 더 빠르게 많이 만들고 싶습니다. 로봇은 다음과 같은 순서로 피자를 만듭니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0021-01.jpg&quot; alt=&quot;As applied to a robotic kitchen&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위 &lt;strong&gt;&lt;em&gt;타임라인 다이어그램&lt;/em&gt;&lt;/strong&gt;으로 나타낸 피자 만드는 업무를 세 로봇이 나누어 수행한다고 가정해보겠습니다. 초기에 재료를 마련하는 부분은 분담하여 진행할 수 있겠네요.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0022-01.jpg&quot; alt=&quot;Timelines visualize distributed systems&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;하지만 피자를 만드는 과정에서는 로봇들이 서로 협력해야 합니다. 로봇 A가 피자를 만들기 위해 재료를 준비하고 있을 때, 로봇 B가 재료를 가져가려고 하면 어떻게 될까요? 로봇 A가 재료를 준비하는 과정에서 로봇 B가 재료를 가져가려고 하면, 로봇 A는 작업을 중단하고 로봇 B에게 다 준비되지 않은 재료를 줍니다. 그러면 안되겠죠.&lt;/p&gt;
+
+&lt;p&gt;이런 상황에서 사용할 수 있는 것이 &lt;strong&gt;&lt;em&gt;타임라인 커팅&lt;/em&gt;&lt;/strong&gt;입니다. 모든 재료를 모은 후 시작해야하는 작업인 ‘반죽 만들기’를 시작하기 전에 모든 로봇은 작업을 마쳐야합니다. 타임라인 다이어그램으로는 이렇게 나타 낼 수 있겠네요.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0025-02.jpg&quot; alt=&quot;Cutting the timeline&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;타임라인 커팅을 이용해 필수 선행작업이 어떤 것인지, 어떤 작업자들과 협업해야하는지 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;위에서 다뤄진 계층화 설계는 8장과 9장에서, 타임라인 다이어그램을 그리는 방법은 15장에서, 타임라인 커팅에 대한 더 자세한 내용은 17장에서 다룰 예정입니다.&lt;/p&gt;</content><author><name>eunice-hong</name></author><category term="book" /><category term="grokking-simplicity" /><summary type="html">Chapter 2 에서는 토니의 피자가게 이야기를 통해 현실에서 함수형 사고를 어떻게 적용할 수 있는지 알아보겠습니다.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.eunice-hong.com/assets/images/markdown.jpg" /><media:content medium="image" url="https://blog.eunice-hong.com/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CHAPTER 1 쏙쏙 들어오는 함수형 코딩에 오신 것을 환영합니다.</title><link href="https://blog.eunice-hong.com/chapter-01/" rel="alternate" type="text/html" title="CHAPTER 1 쏙쏙 들어오는 함수형 코딩에 오신 것을 환영합니다." /><published>2023-03-03T15:17:47+00:00</published><updated>2023-03-03T15:17:47+00:00</updated><id>https://blog.eunice-hong.com/chapter-01</id><content type="html" xml:base="https://blog.eunice-hong.com/chapter-01/">&lt;blockquote&gt;
+  &lt;p&gt;함수형 프로그래밍이란 수학 함수를 사용하여 부수 효과를 최소화하는 프로그래밍 패러다임입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;수학 함수: 순수 함수라고도 불리며, 입력 값이 같으면 항상 같은 결과 값을 내놓습니다.&lt;/li&gt;
+  &lt;li&gt;부수 효과: 함수 외부의 상태를 변경하는 것을 의미합니다. 부수 효과를 완전히 없애는 것이 좋은 프로그래밍이라고도 볼 수 있지만, 현실에서 완전히 없애는 것은 불가능합니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;함수형 프로그래밍에서는 코드를 세가지로 분류합니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;액션: 실행 시점과 실행 횟수에 의존적인 코드&lt;/li&gt;
+  &lt;li&gt;계산: 입력 값이 같으면 항상 같은 결과 값을 내놓는 코드&lt;/li&gt;
+  &lt;li&gt;데이터: 실행 과정 없이도 항상 값이 같은 코드&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;이어지는 챕터에서 다룰 예정이지만, 액션보다는 계산으로, 계산보다는 데이터로 코드를 작성하는 것이 좋습니다. 특히 요즘 유행하는 분산 시스템에 어울립니다. 실행 시점이나 횟수에
+의존하지 않는 계산이나 데이터를 이용하면 분산 시스템에서 발생할 수 있는 여러가지 문제를 예방할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;또, 액션을 계산으로 최대한 변경함으로써 액션 코드도 다루기 쉬워집니다.&lt;/p&gt;
+
+&lt;p&gt;위와 같이 코드를 분류하여 생각하는 과정과 더불어 일급 추상에 대한 이해도 필요합니다. 일급 추상이란 간단히 말하면, 함수를 다른 함수에 인수로 전달하고, 다른 함수의 값으로
+반환하고, 변수에 할당하거나 데이터 구조에 하는 것을 의미합니다.&lt;/p&gt;
+
+&lt;p&gt;앞으로 함수형 사고를 위해 필요한 개념들을 챕터별로 다루어 보겠습니다. 특히, 본 책에서는 실제 소프트웨어에서 활용되고 있는 방식을 예로 들어, 업무에서 적용할 수 있는 방법을
+소개하고자 합니다.&lt;/p&gt;</content><author><name>eunice-hong</name></author><category term="book" /><category term="grokking-simplicity" /><summary type="html">함수형 프로그래밍이란 수학 함수를 사용하여 부수 효과를 최소화하는 프로그래밍 패러다임입니다.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.eunice-hong.com/assets/images/markdown.jpg" /><media:content medium="image" url="https://blog.eunice-hong.com/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

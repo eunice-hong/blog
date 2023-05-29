@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://blog.eunice-hong.com/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.eunice-hong.com/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-05-29T09:04:11+00:00</updated><id>https://blog.eunice-hong.com/en/feed.xml</id><title type="html">Eunice Hong</title><subtitle>Welcome to my blog. I write about software engineering, books, and life.</subtitle><entry><title type="html">CHAPTER 2 Functional thinking in action</title><link href="https://blog.eunice-hong.com/en/chapter-02/" rel="alternate" type="text/html" title="CHAPTER 2 Functional thinking in action" /><published>2023-03-18T11:03:00+00:00</published><updated>2023-03-18T11:03:00+00:00</updated><id>https://blog.eunice-hong.com/en/chapter-02</id><content type="html" xml:base="https://blog.eunice-hong.com/en/chapter-02/">&lt;p&gt;In Chapter 2, we’ll learn how to apply functional thinking in the real world through Toni’s Pizzeria.&lt;/p&gt;
+
+&lt;p&gt;Toni runs a pizza shop in the year 2118 where everything is made of software. As the shop is breaking sales record day after day, the owner of the Pizzeria is planning to expand her business. She knows that functional programming principles can reduce the cost of code changes. Therefore, the first step she takes is categorizing the Pizzeria code into Action, Calculation, and Data.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Action: stretching the dough, delivering pizza, ordering materials, etc.&lt;/li&gt;
+  &lt;li&gt;Calculation:  changing the recipe according to demand, making a grocery shopping list, etc.&lt;/li&gt;
+  &lt;li&gt;Data: pizza recipe, customer order, receipt, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Then, as you can see below, she makes three layers for the code based on their rate of change. In other words, following &lt;strong&gt;&lt;em&gt;stratified design&lt;/em&gt;&lt;/strong&gt;, Toni divided the code base into &lt;em&gt;Business rules&lt;/em&gt;, &lt;em&gt;Domain rules&lt;/em&gt;, and &lt;em&gt;Tech stack&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0020-01.jpg&quot; alt=&quot;Organizing code by “rate of change”&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Until now, a robot single-handedly carried the entire workload of the Pizzeria. By buying two more robots, Toni expects to speed up the pizza-making process. Here is the sequence of how to make a pizza.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0021-01.jpg&quot; alt=&quot;As applied to a robotic kitchen&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Assume the three robots would do the tasks described in the &lt;strong&gt;&lt;em&gt;timeline diagram&lt;/em&gt;&lt;/strong&gt; above. Then, the part of preparing the materials can be distributed to each robot.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0022-01.jpg&quot; alt=&quot;Timelines visualize distributed systems&quot; width=&quot;500&quot; /&gt;
+Now, it’s time to dispatch our &lt;em&gt;pizza squad&lt;/em&gt;! By the way, did we tell them to work together? What if robot B took the dough away in the middle of robot A making it? The dough must be incomplete, and eventually, the customer will receive a ruined pizza. Oh no, that shouldn’t happen!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Timeline cutting&lt;/em&gt;&lt;/strong&gt; is the solution for this kind of situation. Mark the line above the task &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Roll out dough&lt;/code&gt;, which demands all the ingredients for the pizza to be fully prepared beforehand. The line on the timeline diagram must be drawn like this.
+&lt;img src=&quot;https://drek4537l1klr.cloudfront.net/normand/Figures/f0025-02.jpg&quot; alt=&quot;Cutting the timeline&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Timeline cutting gives the entire picture of the best model for co-workers and the prerequisites of each task.&lt;/p&gt;
+
+&lt;p&gt;The following chapters will explain the details of the terminologies used above.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Stratified design&lt;/em&gt;&lt;/strong&gt;: chapter 8, 9&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Timeline diagram&lt;/em&gt;&lt;/strong&gt;: chapter 15&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Timeline cutting&lt;/em&gt;&lt;/strong&gt;: chapter 16&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can find the original post &lt;a href=&quot;https://livebook.manning.com/book/grokking-simplicity/chapter-2/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</content><author><name>eunice-hong</name></author><category term="book" /><category term="grokking-simplicity" /><summary type="html">In Chapter 2, we’ll learn how to apply functional thinking in the real world through Toni’s Pizzeria.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.eunice-hong.com/en/assets/images/markdown.jpg" /><media:content medium="image" url="https://blog.eunice-hong.com/en/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CHAPTER 3 Distinguishing actions, calculations, and data</title><link href="https://blog.eunice-hong.com/en/chapter-03/" rel="alternate" type="text/html" title="CHAPTER 3 Distinguishing actions, calculations, and data" /><published>2023-03-05T05:52:00+00:00</published><updated>2023-03-05T05:52:00+00:00</updated><id>https://blog.eunice-hong.com/en/chapter-03</id><content type="html" xml:base="https://blog.eunice-hong.com/en/chapter-03/">&lt;p&gt;CHAPTER 3 Distinguishing actions, calculations, and data&lt;/p&gt;</content><author><name>eunice-hong</name></author><category term="book" /><category term="grokking-simplicity" /><summary type="html">CHAPTER 3 Distinguishing actions, calculations, and data</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.eunice-hong.com/en/assets/images/markdown.jpg" /><media:content medium="image" url="https://blog.eunice-hong.com/en/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CHAPTER 1 Welcome to Grokking Simplicity</title><link href="https://blog.eunice-hong.com/en/chapter-01/" rel="alternate" type="text/html" title="CHAPTER 1 Welcome to Grokking Simplicity" /><published>2023-03-03T15:17:47+00:00</published><updated>2023-03-03T15:17:47+00:00</updated><id>https://blog.eunice-hong.com/en/chapter-01</id><content type="html" xml:base="https://blog.eunice-hong.com/en/chapter-01/">&lt;p&gt;Functional programming is a programming paradigm that minimizes &lt;em&gt;side effects&lt;/em&gt; using &lt;em&gt;mathematical
+functions&lt;/em&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;mathematical function: also called &lt;em&gt;pure function&lt;/em&gt;, which always returns the same results only if
+the same input values are given.&lt;/li&gt;
+  &lt;li&gt;side-effect: changes in global states. Side effects can incur unexpected outcomes in your code. It
+is therefore very important to manage all ‘actions’ that are in your code. To minimize these
+risks, the functional programming paradigm commands you to get rid of as many side effects as you
+can.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In functional programming, codes can be one of these three categories.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Action: A code that returns different values depending on when or how many times it has been
+executed.&lt;/li&gt;
+  &lt;li&gt;Calculation: A code that returns the same result, given the same input.&lt;/li&gt;
+  &lt;li&gt;Data: A code that is always the same value even without execution.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Calculations over actions and data over calculations. This dogma aligns with distributed systems,
+which are increasingly becoming popular these days. Converting action codes into calculation codes
+would also make it easier to manipulate the code base.&lt;/p&gt;
+
+&lt;p&gt;You should learn about &lt;em&gt;first-class abstractions&lt;/em&gt; while practicing sorting codes in the three
+categories above.&lt;/p&gt;
+
+&lt;p&gt;First-class abstraction is to handle functions like values.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Passing the function as a parameter to another function&lt;/li&gt;
+  &lt;li&gt;Returning a function within a function&lt;/li&gt;
+  &lt;li&gt;Assign the function to a variable&lt;/li&gt;
+  &lt;li&gt;Involve the function in a data structure&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the following posts, we’ll talk about some prerequisites ahead of our functional journey.
+Luckily, the stories about how functional programming can be used in the real world are just around
+the corner! They would help you to take advantage of functional programming on your working code
+base.&lt;/p&gt;
+
+&lt;p&gt;Stay tuned!&lt;/p&gt;</content><author><name>eunice-hong</name></author><category term="book" /><category term="grokking-simplicity" /><summary type="html">Functional programming is a programming paradigm that minimizes side effects using mathematical functions.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.eunice-hong.com/en/assets/images/markdown.jpg" /><media:content medium="image" url="https://blog.eunice-hong.com/en/assets/images/markdown.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
