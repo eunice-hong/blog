@@ -39,7 +39,7 @@ bio: A Person who develops software with coffee
 # if it's an external image, update below for true
 # better with square images
 external-image: false
-picture: assets/images/profile.jpg
+picture: assets/images/profile.png
 
 # your site color theme, true for dark theme,
 # false to light theme, auto to switch with system.
