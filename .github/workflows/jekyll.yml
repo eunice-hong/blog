@@ -1,4 +1,4 @@
-name: Jekyll CI
+name: Build and test Jekyll site
 
 on:
   push
