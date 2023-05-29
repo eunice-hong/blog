@@ -24,7 +24,6 @@ exclude: [
   "Gemfile.lock",
   "FAQ.md",
   "vendor",
-  "404.html",
   "README.md",
   "about.markdown",
   "package.json",
