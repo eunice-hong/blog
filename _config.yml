@@ -22,7 +22,6 @@ languageNames:
 exclude: [
   "Gemfile",
   "Gemfile.lock",
-  "FAQ.md",
   "vendor",
   "README.md",
   "about.markdown",
@@ -69,7 +68,7 @@ authors:
     name: Eunice Hong
     bio: A Person who develops software with coffee
     external-image: false
-    picture: assets/images/profile.jpg
+    picture: assets/images/profile.png
     twitter: eunicehongkr
 
 # do you want a larger site? change the option below
