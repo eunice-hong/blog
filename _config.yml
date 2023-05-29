@@ -12,6 +12,7 @@ plugins:
   - jemoji
   - jekyll-paginate-v2
 
+url: "https://blog.eunice-hong.com"
 baseurl: "" # the subpath of your site, e.g. /blog
 permalink: /:title/
 
