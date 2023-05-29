@@ -1,7 +1,7 @@
-title: grokking simplicity notes
-email: dev@eunice-hong.com
+title: Eunice Hong
+email: contact@eunice-hong.com
 description: >-
-  Notes on grokking simplicity
+  Welcome to my blog. I write about software engineering, books, and life.
 
 plugins:
   - jekyll-multiple-languages-plugin
@@ -11,7 +11,6 @@ plugins:
   - jemoji
   - jekyll-paginate-v2
 
-#baseurl: /grokking-simplicity
 permalink: /:title/
 
 languages: [ "ko", "en" ]
@@ -36,7 +35,7 @@ exclude: [
 exclude_from_localizations: [ "javascript", "images", "css", "scripts", "favicon.ico", "assets" ]
 
 # from indigo theme
-bio: A Person who travels the world eating noodles
+bio: A Person who develops software with coffee
 
 # if it's an external image, update below for true
 # better with square images
@@ -50,36 +49,29 @@ dark-theme: auto
 
 # If you want to include your resume, set to true
 # and specify source (external or local).
-resume: true
+resume: false
 resume-external: true
-resume-url: https://google.com/?q=my+resume
+resume-url: https://linkedin.com/in/eunjin-hong-kr
 
 
 # if you don't want comments in your posts, leave categories empty
 disqus:
   shortname: github # enter this from your disqus account
-  categories: [ blog, project ] # only show disqus for posts that have these categories
+  categories: [ blog, project, book ] # only show disqus for posts that have these categories
 
 # if you don't have any of social below, comment the line
-facebook: myfacebook
-twitter: mytwitter
-instagram: myinstagram
-linkedin: mylinkedin
-github: mygithub
+twitter: eunicehongkr
+instagram: dev.driven.eunice
+linkedin: eunjin-hong-kr
+github: eunice-hong
 
 authors:
-  johndoe:
-    name: John Doe
-    bio: A Man who travels the world eating noodles
+  eunice-hong:
+    name: Eunice Hong
+    bio: A Person who develops software with coffee
     external-image: false
     picture: assets/images/profile.jpg
-    twitter: johndoe
-  jamesfoster:
-    name: James Foster
-    bio: A Man who develops software with coffee
-    external-image: false
-    picture: assets/images/james.jpg
-    twitter: jamesfoster
+    twitter: eunicehongkr
 
 # do you want a larger site? change the option below
 # options: [normal, large] | default: normal
@@ -123,7 +115,7 @@ animation: true
 defaults:
   - scope:
       path: "" # an empty string here means all files in the project
-      layout: "post"
+
     values:
       # setting all post to not hidden by default,
       # can be overridden in the front matter for a specific post
