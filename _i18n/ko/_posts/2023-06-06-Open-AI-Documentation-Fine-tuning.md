@@ -731,9 +731,46 @@ openai wandb sync
 
 ## 예시 코드 - 주피터 노트북
 
-### 범주화
+### 분류하기
+
+* [**finetuning-classification.ipynb**][example_classification_notebook]
+
+이 노트북에서는 입력 텍스트가 야구 또는 하키와 관련이 있는지 여부를 분류할 수 있는 모델을
+미세 조정하는 방법을 시연합니다. 이 작업은 노트북에서 4단계로 수행됩니다:
+
+1. 데이터 탐색을 통해 데이터 소스의 개요와 예를 볼 수 있습니다.
+2. 데이터 준비는 데이터 소스를 미세 조정에 사용할 수 있는 `JSONL` 파일로 변환합니다.
+3. 미세 조정은 미세 조정 작업을 시작하고 결과 모델의 성능을 설명합니다.
+4. 모델을 사용하여 예측을 얻기 위해 미세 조정된 모델에 대한 요청을 하는 것을 시연합니다.
 
 ### 질의 응답
+
+* [**olm-1-collect-data.ipynb**][example_qa_notebook_1]
+* [**olm-2-create-qa.ipynb**][example_qa_notebook_2]
+* [**olm-3-train-qa.ipynb**][example_qa_notebook_3]
+
+이 프로젝트의 아이디어는 제공된 텍스트의 몇 단락을 기반으로 질문 답변 모델을 만드는 것입니다.
+기본 GPT-3 모델은 단락 내에 답변이 포함되어 있을 때 질문에 대한 답변을 잘 수행하지만,
+답변이 포함되어 있지 않을 경우 기본 모델은 어쨌든 답변을 위해 최선을 다하려는 경향이 있으며,
+종종 거짓 답변으로 이어집니다.
+
+이를 위한 충분한 맥락이 있는 경우에만 질문에 대답하는 모델을 만들기 위해
+먼저 텍스트 단락을 기반으로 질문과 답변의 데이터 세트를 만듭니다.
+답변이 있을 때만 모델이 답변하도록 훈련하기 위해 질문이 맥락과 일치하지 않는 적대적 사례도 추가합니다.
+이러한 경우 모델이 "질문에 답변하기에 충분한 컨텍스트 없음"을 출력하도록 요청합니다.
+
+이 작업은 세 가지 노트북에서 수행합니다:
+
+1. [첫 번째 노트북][example_qa_notebook_1]은 GPT-3가 사전 교육 중에 보지 못한
+   최근 데이터를 수집하는 데 중점을 둡니다. 우리는 올림픽 게임 2020(실제 2021년 여름에 개최됨)이라는 주제를
+   선정하여 713개의 독특한 페이지를 다운로드했습니다. 우리는 개별 섹션별로 데이터 세트를 구성했는데,
+   이는 질문을 묻고 대답하는 컨텍스트 역할을 할 것입니다.
+2. [두 번째 노트북][example_qa_notebook_2]은 위키백과 섹션을 기반으로 몇 가지 질문을 하고
+   해당 섹션을 기반으로 질문에 답하기 위해 다빈치 명령을 사용할 것입니다.
+3. [세 번째 노트북][example_qa_notebook_3]은 컨텍스트, 질문 및 답변 쌍의 데이터 세트를 활용하여
+   질문이 해당 컨텍스트에서 생성되지 않은 적대적 질문 및 컨텍스트 쌍을 추가로 생성합니다.
+   이 경우 모델은 "질문에 답변하기에 충분한 컨텍스트가 없습니다"라는 메시지를 표시합니다.
+   우리는 또한 문맥을 기반으로 질문에 대답할 수 있는지 여부를 예측하는 판별자 모델을 훈련할 것입니다.
 
 [open_ai_pricing]: https://openai.com/pricing
 
@@ -750,3 +787,11 @@ openai wandb sync
 [open_ai_models]: https://platform.openai.com/docs/models
 
 [open_ai_weight_and_bias]: https://docs.wandb.ai/guides/integrations/openai
+
+[example_classification_notebook]: https://github.com/openai/openai-cookbook/blob/main/examples/Fine-tuned_classification.ipynb
+
+[example_qa_notebook_1]: https://github.com/openai/openai-cookbook/blob/main/examples/fine-tuned_qa/olympics-1-collect-data.ipynb
+
+[example_qa_notebook_2]: https://github.com/openai/openai-cookbook/blob/main/examples/fine-tuned_qa/olympics-2-create-qa.ipynb
+
+[example_qa_notebook_3]: https://github.com/openai/openai-cookbook/blob/main/examples/fine-tuned_qa/olympics-3-train-qa.ipynb
