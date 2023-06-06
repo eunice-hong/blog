@@ -105,7 +105,7 @@ image_url = response['data'][0]['url']
 
 | 이미지                                    | 변형 결과                                   |
 |----------------------------------------|-----------------------------------------|
-| ![변형 입력 예시 이미지][variant_example_input] | ![변형 결과 예시 이미지][variant_example_result] |
+| ![변형 입력 예시 이미지][variant_example_input] | ![변형 결과 예시 이미지][variant_example_output] |
 
 ### 내용 조정
 
