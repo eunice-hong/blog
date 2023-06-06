@@ -534,33 +534,200 @@ curl https://api.openai.com/v1/completions \
 
 ### 모델명 개인화
 
+접미사 매개 변수를 사용하여 최대 40자의 접미사를 미세 조정된 모델 이름에 추가할 수 있습니다.
+
+OpenAI CLI:
+```bash
+openai api fine_tunes.create -t test.jsonl -m ada --suffix "custom model name"
+```
+결과 이름은 다음과 같습니다:
+
+```bash
+ada:ft-your-org:custom-model-name-2022-02-15-04-21-04
+```
+
 ### 미세 조정 모델 분석하기
 
-#### 분류별 메트릭
+작업이 완료되면 각 작업에 결과 파일을 첨부합니다. 
+이 결과 파일 ID는 미세 조정을 검색할 때와 미세 조정의 이벤트를 볼 때 나열됩니다. 
+다음 명령어로 파일을 다운로드할 수 있습니다:
+
+OpenAI CLI:
+```bash
+openai api fine_tunes.results -i <YOUR_FINE_TUNE_JOB_ID>
+
+```
+
+CURL:
+```bash
+curl https://api.openai.com/v1/files/$RESULTS_FILE_ID/content \
+  -H "Authorization: Bearer $OPENAI_API_KEY" > results.csv
+```
+
+`_results.csv` 파일에는 각 훈련 단계에 대한 행이 포함되어 있습니다. 
+여기서 단계란 데이터 배치에 대한 하나의 전진 및 후진 패스를 의미합니다. 
+각 행에는 단계 번호 외에도 해당 단계에 대한 내용들이 포함됩니다.
+아래 필드는 훈련 단계에 대한 정보를 제공합니다:
+
+* `elapsed_token`: 모델이 지금까지 확인한 토큰 수(반복 포함)
+* `elapsed_examples`: 지금까지 모델이 확인한 예제의 수(반복 포함). 
+  여기서 한 예제는 배치의 한 요소입니다. 
+  예를 들어 `batch_size = 4`인 경우 각 단계는 `elapsed_examples`를 4만큼 늘립니다.
+* `training_loss`: 훈련 배치에서의 손실
+* `training_sequence_accuracy`: 모델의 예측 토큰과 실제 `완료` 토큰의 일치율을 나타냅니다. 
+  예를 들어, `batch_size`가 3이고, 데이터에 `완료` [1, 2], [0, 5], [4, 2]가 포함되어 있고,
+  모델의 예측 `완료`에 [1, 1], [0, 5], [4, 2]가 포함되어 있으면 이 정확도는 2/3 = 0.67이 됩니다
+* `training_module_accuracy`: 모델에 의해 올바르게 예측된 훈련 배치의 토큰 백분율입니다.
+  예를 들어, `batch_size`가 3인 경우 데이터에 완성도 [1, 2], [0, 5], [4, 2]가 포함되어 있고 
+  모델이 예측한 [1, 1], [0, 5], [4, 2]가 포함되어 있으면 이 정확도는 5/6 = 0.83이 됩니다
+
+#### 분류 작업 관련 메트릭
+
+또한 정확도 및 가중 F1 점수와 같은 추가 분류별 메트릭을 결과 파일에 생성하는 옵션을 제공한다. 
+이러한 메트릭은 전체 유효성 검사 세트에 대해 정기적으로 계산되고 미세 조정이 완료될 때 계산됩니다. 
+결과 파일에 추가 열로 표시됩니다.
+
+이를 활성화하려면 매개 변수 `--compute_classification_metrics`를 설정합니다. 
+또한 유효성 검사 파일을 제공하고 다중 클래스 분류의 경우 
+`classification_n_classes` 매개 변수를 설정하거나 
+이진 분류의 경우 `classification_positive_class`를 설정해야 합니다.
+
+```bash
+# For multiclass classification
+openai api fine_tunes.create \
+  -t <TRAIN_FILE_ID_OR_PATH> \
+  -v <VALIDATION_FILE_OR_PATH> \
+  -m <MODEL> \
+  --compute_classification_metrics \
+  --classification_n_classes <N_CLASSES>
+
+# For binary classification
+openai api fine_tunes.create \
+  -t <TRAIN_FILE_ID_OR_PATH> \
+  -v <VALIDATION_FILE_OR_PATH> \
+  -m <MODEL> \
+  --compute_classification_metrics \
+  --classification_n_classes 2 \
+  --classification_positive_class <POSITIVE_CLASS_FROM_DATASET>
+```
+
+`--compute_classification_metrics`를 설정하면 다음 메트릭이 결과 파일에 표시됩니다:
+
+**다중 클래스 분류용**
+
+* **classification/accuracy**: 정확도
+* **classification/weighted_f1_score**: 가중 F-1 점수
+
+**이진 분류용**
+
+다음 메트릭은 0.5의 분류 임계값을 기반으로 합니다.
+(예: 확률이 0.5보다 높을 때, 예제는 양의 클래스에 속하는 것으로 분류됩니다.)
+
+* **classification/accuracy**
+* **classification/precision**
+* **classification/recall**
+* **classification/f{beta}**
+* **classification/auroc** - AUROC
+* **classification/auprc** - AUPRC
+
+위에서 설명한 것처럼 단일 토큰으로 토큰화하는 클래스에 대해 텍스트 레이블을 사용한다고 가정합니다. 
+이러한 조건이 충족되지 않으면, 여러분이 얻는 숫자가 틀릴 가능성이 높습니다.
 
 #### 유효화
+유효성 검사를 위해 일부 데이터를 예약할 수 있습니다. 
+유효성 검사 파일의 형식은 열차 파일과 정확히 동일하며, 
+열차와 유효성 검사 데이터는 상호 배타적이어야 합니다.
+
+미세 조정 작업을 생성할 때 유효성 검사 파일을 포함하는 경우 
+생성된 결과 파일에는 훈련 중 주기적인 간격으로 미세 조정된 모델이 
+유효성 검사 데이터에 대해 얼마나 잘 수행되는지에 대한 평가가 포함됩니다.
+
+OpenAI CLI:
+```bash
+openai api fine_tunes.create -t <TRAIN_FILE_ID_OR_PATH> \
+  -v <VALIDATION_FILE_ID_OR_PATH> \
+  -m <MODEL>
+```
+
+유효성 검사 파일을 제공한 경우 훈련 시간 동안 
+유효성 검사 데이터 배치에 대한 메트릭을 주기적으로 계산합니다. 
+결과 파일에 다음과 같은 추가 메트릭이 표시됩니다:
+
+* `validation_loss`: 유효성 검사 배치의 손실
+* `validation_sequence_accuracy`: 모델의 예측 토큰이 실제 완료 토큰과 
+  정확히 일치하는 유효성 검사 배치의 완료 비율입니다. 
+  예를 들어, batch_size가 3인 경우 데이터에 완성도 [1, 2], [0, 5], [4, 2]가 포함되어 있고
+  모델이 예측한 [1, 1], [0, 5], [4, 2]가 포함되어 있으면 이 정확도는 2/3 = 0.67이 됩니다.
+* `validation_token_accuracy`: 모델에 의해 올바르게 예측된 유효성 검사 배치의 토큰 백분율입니다. 
+  예를 들어, batch_size가 3인 경우 데이터에 완성도 [1, 2], [0, 5], [4, 2]가 포함되어 있고 
+*   모델이 예측한 [1, 1], [0, 5], [4, 2]가 포함되어 있으면 이 정확도는 5/6 = 0.83이 됩니다
 
 #### 하이퍼 파라미터
+다양한 사용 사례에서 잘 작동하는 기본 하이퍼 파라미터를 선택했습니다. 
+필요한 매개 변수는 훈련 파일뿐입니다.
 
-### 미세 조정된 모델에서 미세 조정 계속
+즉, 미세 조정에 사용되는 하이퍼 파라미터를 조정하면 
+종종 더 높은 품질의 출력을 생성하는 모델로 이어질 수 있다. 
+특히 다음을 구성할 수 있습니다:
 
-## 비중 과 편향
+* `model`: 미세 조정할 기본 모델의 이름입니다. 
+  "ada", "babbage", "curie", "davinci" 중에서 선택할 수 있습니다. 
+  모델에 대한 자세한 내용은 [모델 설명서][open_ai_models]를 참조하십시오.
+* `n_sys` - 기본값은 4입니다. 모델을 훈련할 에포크 수입니다. 
+  이 때, 에포크란 훈련 데이터셋을 통해 이뤄지는 하나의 전체 사이클을 말합니다.
+* `batch_size` - 기본값은 훈련 데이터 셋의 예제 수의 0.2% 이하입니다. 
+  훈련 데이터 셋의 최대값은 256 입니다.
+  배치 크기는 단일 전진 및 후진 패스를 훈련하는 데 사용되는 훈련 예제의 수입니다.
+  일반적으로 배치 크기가 클수록 데이터 세트가 더 잘 작동한다는 것을 발견했습니다.
+* `learning_rate_batchier` - 최종 `batch_size`에 따라, 기본값은 0.05, 0.1 또는 0.2입니다.
+  미세 조정 학습 속도는 사전 훈련에 사용되는 원래 학습 속도에 승수를 곱한 것과 같습니다.
+  최상의 결과를 얻기 위해 0.02 - 0.2 범위 내의 값으로 실험하는 것이 좋습니다.
+  실험 결과, 우리는 학습 속도가 클수록 종종 배치 크기가 클수록 성능이 더 좋다고 알려져 있습니다.
+* `compute_classification_metrics` - 기본값은 False입니다. 
+  True로 설정할 경우, 매 에포크 끝에 설정된 검증 데이터셋에 대한 분류별 메트릭을 계산합니다.
+  분류별 메트릭으로는 정확도, F-1 점수 등이 있습니다.
+  분류 작업을 위한 미세 조정에 사용할 때 유용합니다.
 
-미세 조정을 가중치 & 바이어스와 동기화하여 실험, 모델 및 데이터셋를 추적할 수 있습니다.
+이러한 추가 하이퍼 파라미터를 구성하려면, OpenAI CLI의 명령어 플래그를 통해 아래와 같이 전달합니다:
 
-시작하려면 가중치 & 바이어스 계정과 유료 OpenAI 요금제가 필요합니다. 최신 버전의 openai와 wandb를 사용하고 있는지 확인하려면 다음을 실행합니다:
+```bash
+openai api fine_tunes.create \
+  -t file-JD89ePi5KMsB3Tayeli5ovfW \
+  -m ada \
+  --n_epochs 1
+```
+
+### 미세 조정된 모델을 더 미세 조정하기
+
+필요에 맞춰 모델을 이미 미세 조정했으며 통합하려는 추가 훈련 데이터가 있는 경우 
+모델에서 미세 조정을 계속할 수 있습니다. 
+이를 통해 처음부터 다시 훈련할 필요 없이 모든 훈련 데이터에서 학습한 모델이 생성됩니다.
+
+이렇게 하려면 새 미세 조정 작업을 생성할 때 미세 조정된 모델 이름을 전달합니다(예: `-m curie:ft-<org>-<date>`). 
+다른 훈련 매개 변수를 변경할 필요는 없지만, 
+새 훈련 데이터가 이전 훈련 데이터보다 훨씬 작을 경우 `learning_rate_multiplier`를 
+2배에서 4배로 줄이는 것이 유용할 수 있습니다.
+
+
+## 가중치 & 바이어스
+
+미세 조정을 [가중치 & 바이어스][open_ai_weight_and_bias]와 동기화하면, 
+실험, 모델 및 데이터셋를 추적할 수 있습니다.
+
+시작하려면 [가중치 & 바이어스][open_ai_weight_and_bias] 계정과 OpenAI 유료 요금제가 필요합니다. 
+최신 버전의 `openai`와 `wandb`를 사용하고 있는지 확인하려면, 다음을 실행하세요:
 
 ```bash
 pip install --upgrade openai wandb
 ```
 
-가중치 & 바이어스와 미세 조정을 동기화하려면 다음을 실행합니다:
+[가중치 & 바이어스][open_ai_weight_and_bias]와 미세 조정을 동기화 시키려면 다음을 실행합니다:
 
 ```bash
 openai wandb sync
 ```
 
-이 통합에 대한 자세한 내용은 가중치 & 바이어스 설명서를 참조하십시오.
+이 통합에 대한 자세한 내용은 [가중치 & 바이어스 설명서][open_ai_weight_and_bias]를 참조하세요.
 
 ## 예시 코드 - 주피터 노트북
 
@@ -579,3 +746,7 @@ openai wandb sync
 [open_ai_files]: https://platform.openai.com/docs/api-reference/files
 
 [open_ai_tokenizer]: https://platform.openai.com/tokenizer
+
+[open_ai_models]: https://platform.openai.com/docs/models
+
+[open_ai_weight_and_bias]: https://docs.wandb.ai/guides/integrations/openai
