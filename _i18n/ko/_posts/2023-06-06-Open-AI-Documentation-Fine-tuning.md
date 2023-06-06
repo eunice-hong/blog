@@ -93,11 +93,11 @@ export OPENAI_API_KEY="<OPENAI_API_KEY>"
 미세 조정 훈련 예제는 일반적으로 단일 입력 예제와 해당 입력과 관련된 출력으로 구성되며,
 자세한 지침을 제공하거나 동일한 프롬프트에 여러 예제를 포함할 필요가 없습니다.
 
-다양한 작업에 대한 훈련 데이터를 준비하는 방법에 대한 자세한 지침은 [데이터 준비 모범 사례](#일반-모범-사례)를 참조하세요.
+다양한 작업에 대한 훈련 데이터를 준비하는 방법에 대한 자세한 지침은 [데이터 준비 모범 사례](#모범-사례)를 참조하세요.
 
 예시가 많을수록 좋습니다.
 적어도 200개의 예를 갖추는 것을 추천합니다.
-연구 결과, 일반적으로 데이터 세트 크기를 두 배로 늘릴 때마다 모델 품질이 선형적으로 증가합니다.
+연구 결과, 일반적으로 데이터셋 크기를 두 배로 늘릴 때마다 모델 품질이 선형적으로 증가합니다.
 
 #### CLI 데이터 준비 도구
 
@@ -132,12 +132,12 @@ openai api fine_tunes.create -t <TRAIN_FILE_ID_OR_PATH> -m <BASE_MODEL>
 
 모든 미세 조정 작업은 기본 모델에서 시작되며 기본 모델은 curie입니다.
 모델 선택은 모델의 성능과 미세 조정된 모델 실행 비용에 모두 영향을 미칩니다.
-모형은 ada, babbage, curie 또는 davinci 중 하나일 수 있습니다.
+모델은 ada, babbage, curie 또는 davinci 중 하나일 수 있습니다.
 세부 요금에 대한 자세한 내용은 OpenAI의 [가격 페이지][open_ai_pricing]를 참조하세요.
 
 미세 조정 작업을 시작한 후 완료하는 데 시간이 걸릴 수 있습니다.
 귀하의 작업은 당사 시스템의 다른 작업 뒤에 대기될 수 있으며,
-모델 및 데이터 세트 크기에 따라 모델을 훈련하는 데 몇 분 또는 몇 시간이 걸릴 수 있습니다.
+모델 및 데이터셋 크기에 따라 모델을 훈련하는 데 몇 분 또는 몇 시간이 걸릴 수 있습니다.
 이벤트 스트림이 모종의 이유로 중단된 경우 다음을 실행하여 다시 시작할 수 있습니다:
 
 ```bash
@@ -233,27 +233,302 @@ openai.Model.delete(FINE_TUNED_MODEL)
 
 ## 데이터 준비하기
 
-### 데이터 규격화
+미세 조정은 사용 사례에 맞는 새로운 모델을 만드는 강력한 기술입니다.
+모델을 미세 조정하기 전에 아래의 [모범 사례](#모범-사례) 및 
+[사용 사례에 대한 상황별 지침](#상황별-지침)을 읽는 것이 좋습니다.
 
-### 일반 모범 사례
+### 데이터 형식 지정
 
-### 구체적인 가이드라인
+모델을 미세 조정하려면
+각각 단일 입력(이하 `프롬프트`)과 관련 출력(이하 `완료`)으로 구성된 일련의 훈련 예제가 필요합니다.
+기본 모델에는 단일 프롬프트에 구체적인 지시사항이나 여러 예제를 입력하지만, 
+미세 조정에 사용되는 훈련 예제는 이와 현저히 다릅니다.
 
-#### 범주화
+* 각 `프롬프트`는 프롬프트가 끝나고, `완료`가 시작되는 부분에 고정 구분 기호를 넣어 모델에 알려야 합니다.
+  일반적으로 잘 작동하는 간단한 구분 기호는 `\n\n##\n\n`입니다.
+  `프롬프트` 내 다른 곳에 해당 구분 기호를 사용하면 안됩니다.
+* 모든 값은 [형태소 분석(tokenization)][open_ai_tokenizer] 되기 때문에, 
+  각 `완료`는 공백으로 시작해야 합니다. 
+  형태소 분석은 각 단어 앞에 있는 공백을 기준으로 단어를 분리합니다.
+* 각 `완료`는 `완료`가 종료될 때 모델에 알리기 위해 정지 시퀀스 고정값으로 끝나야 합니다.
+  정지 시퀀스는 `\n`, `###` 또는 `완료`에 나타나지 않는 다른 형태소를 사용할 수 있습니다.
+* 모델의 추론을 돕기 위해, 훈련 데이터셋를 만들 때와 동일한 방식으로 `프롬프트` 형식을 지정해야 합니다.
+  동일한 구분 기호를 사용해야하고, `완료`를 올바르게 자르기 위해 동일한 정지 시퀀스를 지정합니다.
 
-##### 케이스 스터디 1.
+### 모범 사례
 
-##### 케이스 스터디 1.
+미세 조정은 고품질 예제가 많을수록 성능이 향상됩니다.
+고품질 프롬프트를 사용하는 것보다 더 좋은 성능을 내기 위해 미세조정을 하려면 어떻게 해야할까요?
+기본 모델로 모델을 미세 조정하려면 인간 전문가가 이상적으로 검토한 
+수백 개의 고품질 예제를 제공해야 합니다. 
+고품질 예제를 사용한다면, 예제 수가 두 배로 증가할 때마다 성능이 선형적으로 증가시킬 수 있습니다.
+예제 수를 늘리는 것이 일반적으로 성능을 향상시키는 가장 좋은 방법입니다.
 
-##### 케이스 스터디 1.
+분류기(Classifier)는 시작하기 가장 쉬운 모델입니다. 
+분류 작업의 경우, Open AI 기본 모델 중 ada 를 권합니다.
+ada는 다른 모델들에 비해 성능은 살짝 뒤쳐질지 모르지만, 
+일반적으로 한 번 미세 조정되면 훨씬 빠르고 저렴합니다.
+
+프롬프트를 백지에서부터 작성하는 대신 기존 데이터셋로 미세 조정한다면,
+가능한 한 수작업으로 데이터 내에 공격적이거나 부정확한 내용이 있는지 검토하세요.
+특히, 데이터셋의 랜덤 샘플이 큰 경우 가능한 한 많이 검토하십시오.
+
+### 상황별 지침
+
+미세 조정은 다양한 문제를 해결할 수 있으며, 최적의 사용 방법은 사용 상황에 따라 달라질 수 있습니다.
+다음은 미세 조정을 위한 가장 일반적인 사용 사례와 해당 지침입니다.
+
+* [분류](#분류)
+  1. [광고 속 정보 오류 찾기](#사례-연구-광고-속-정보-오류-찾기)
+  2. [감정 분석하기](#사례-연구-감정-분석하기)
+  3. [이메일 카테고리 분류하기](#사례-연구-이메일-카테고리-분류하기)
+* [조건부 생성](#조건부-생성)
+  1. [위키피디아를 기반으로 매력적인 광고 작성하기](#사례-연구-위키피디아를-기반으로-매력적인-광고-작성하기)
+  2. [개체 추출하기](#사례-연구-개체-추출하기)
+  3. [고객 지원 챗봇 만들기](#사례-연구-고객-지원-챗봇-만들기)
+  4. [제품 상세정보를 기반으로 한 제품 설명 작성하기](#사례-연구-제품-상세정보를-기반으로-한-제품-설명-작성하기)
+
+#### 분류
+
+분류 문제에서 `프롬프트`의 각 입력은 미리 정의된 클래스 중 하나로 분류되어야 합니다.
+이러한 유형의 문제에 대해서는 다음을 권장합니다:
+
+* 프롬프트 끝에 구분 기호(예: `\n\n###\n\n`)를 사용합니다.
+* 최종적으로 모델에 요청할 때도 이 구분 기호를 추가해야 합니다.
+* 단일 토큰에 매핑할 클래스를 선택합니다.
+* 분류에는 첫 번째 토큰만 필요하므로 추론 시 `max_token=1`을 지정합니다.
+* 구분 기호를 포함하여 `프롬프트` + `완료`의 토큰 개수가 2,048개를 초과하지 않는지 확인합니다.
+* 클래스당 최소 100개의 예제를 목표로 합니다.
+* 클래스 로그 확률을 얻으려면 모델을 사용할 때 `logprob=5`(5개의 클래스에 대해)를 지정할 수 있습니다.
+* 미세 조정에 사용되는 데이터셋가 모델이 사용될 대상과 구조 및 작업 유형이 유사한지 확인합니다.
+
+##### 사례 연구: 광고 속 정보 오류 찾기
+
+웹 사이트의 광고에 제품과 회사가 올바르게 언급되어 있는지 확인하려고 합니다.
+즉, 모델이 조작을 하고 있지 않은지 확인하려고 합니다.
+잘못된 광고를 걸러내는 분류기를 미세 조정할 수 있습니다.
+
+데이터셋은 다음과 같은 형식을 사용할 수 있습니다:
+
+```jsonlines
+{"prompt":"Company: BHFF insurance\nProduct: allround insurance\nAd:One stop shop for all your insurance needs!\nSupported:", "completion":" yes"}
+{"prompt":"Company: Loft conversion specialists\nProduct: -\nAd:Straight teeth in weeks!\nSupported:", "completion":" no"}
+```
+
+위의 예에서는 회사 이름, 제품 및 관련 광고가 포함된 구조화된 입력을 사용했습니다.
+구분 기호로 `\nSupported:`를 사용하여 `프롬프트`와 `완료`를 명확하게 구분했습니다.
+충분한 수예를 들어, 분리막은 프롬프트 또는 완료 내에 나타나지 않는 한(통상 0.4% 미만) 큰 차이가 없다.
+
+이 사용 사례를 위해 우리는 ada 모델을 미세 조정했습니다.
+분류 작업이기 때문에 성능이 더 큰 모델들보다 더 빠르고 저렴한 모델을 사용하는 것이 좋습니다.
+
+이제 `완료` 요청을 보내, 모델에게 문의할 수 있습니다.
+
+```bash
+curl https://api.openai.com/v1/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "prompt": "Company: Reliable accountants Ltd\nProduct: Personal Tax help\nAd:Best advice in town!\nSupported:",
+    "max_tokens": 1,
+    "model": "YOUR_FINE_TUNED_MODEL_NAME"
+  }'
+```
+
+`예` 또는 `아니오` 중 하나를 반환합니다.
+
+##### 사례 연구: 감정 분석하기
+
+특정 트윗의 긍/부정 정도를 등급으로 매기고 싶다고 해봅시다.
+데이터셋은 다음과 같이 보일 수 있습니다:
+
+```jsonlines
+{"prompt":"새 아이폰이 생겨 넘 즐거워요! ->", "completion":" positive"}
+{"prompt":"@lakers 3일 연속 밤에 실망 https://t.co/38EFe43 ->", "completion":" negative"}
+```
+
+모델이 미세 조정되면 `완료` 요청에 `logprob=2`를 설정하여
+첫 번째 `완료` 토큰에 대한 로그 확률을 다시 가져올 수 있습니다.
+긍정적인 계층에 대한 확률이 높을수록 상대적인 정서도 높아집니다.
+
+이제 `완료` 요청을 하여 모델을 쿼리할 수 있습니다.
+
+```bash
+curl https://api.openai.com/v1/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "prompt": "https://t.co/f93xEd2 제 최신 블로그 게시물을 공유하게 되어 기뻐요! ->",
+    "max_tokens": 1,
+    "model": "YOUR_FINE_TUNED_MODEL_NAME"
+  }'
+```
+
+위 명령어는 아래와 같은 결과를 반환합니다.
+
+```jsonlines
+{
+  "id": "cmpl-COMPLETION_ID",
+  "object": "text_completion",
+  "created": 1589498378,
+  "model": "YOUR_FINE_TUNED_MODEL_NAME",
+  "choices": [
+    {
+      "logprobs": {
+        "text_offset": [
+          19
+        ],
+        "token_logprobs": [
+          -0.03597255
+        ],
+        "tokens": [
+          " positive"
+        ],
+        "top_logprobs": [
+          {
+            " negative": -4.9785037,
+            " positive": -0.03597255
+          }
+        ]
+      },
+      "text": " positive",
+      "index": 0,
+      "finish_reason": "length"
+    }
+  ]
+}
+```
+
+##### 사례 연구: 이메일 카테고리 분류하기
+
+이메일 수신 시, 미리 정의된 많은 카테고리 중 하나로 분류하려고 합니다.
+분류하려는 카테고리 수가 많다면, 카테고리를 숫자로 변환하는 것이 좋습니다.
+최대 500개까지 카테고리를 숫자로 변환하여 사용할 수 있습니다.
+형태소 분석을 고려하여, 숫자 앞에 공백을 추가하면 성능에 약간 도움이 될 수 있습니다.
+훈련 데이터를 다음과 같이 구성할 수 있습니다:
+
+```jsonlines
+{"prompt":"Subject: <email_subject>\nFrom:<customer_name>\nDate:<date>\nContent:<email_body>\n\n###\n\n", "completion":" <numerical_category>"}
+```
+
+예시 데이터는 다음과 같습니다:
+
+```jsonlines
+{"prompt":"Subject: Update my address\nFrom:Joe Doe\nTo:support@ourcompany.com\nDate:2021-06-03\nContent:Hi,\nI would like to update my billing address to match my delivery address.\n\nPlease let me know once done.\n\nThanks,\nJoe\n\n###\n\n", "completion":" 4"}
+```
+
+위의 예에서 우리는 2,043개 토큰으로 제한된 수신 이메일을 입력으로 사용했습니다.
+(이를 통해 4개의 토큰 구분자와 1개의 토큰 완료가 가능하며, 합계는 2,048입니다.)
+구분자로 `\n\n##\n`을 사용하여 이메일에서 `###`이 발생하지 않도록 제거했습니다.
 
 #### 조건부 생성
 
-##### 케이스 스터디 1.
+조건부 생성은 어떤 종류의 입력이 주어지면 콘텐츠가 생성되어야 하는 문제이다.
+여기에는 패러프레이징, 요약, 개체 추출, 주어진 사양의 제품 설명 쓰기, 챗봇 등이 포함된다.
+이러한 유형의 문제에는 다음을 권장합니다:
 
-##### 케이스 스터디 1.
+* 프롬프트 끝에 구분 기호(예: \n\n###\n\n)를 사용합니다.
+  최종적으로 모델에 요청할 때도 이 구분 기호를 추가해야 합니다.
+* 완료의 끝에 END와 같은 종료 토큰 사용.
+* 추론 중에 종료 토큰을 정지 시퀀스로 추가해야 합니다(예: stop=["END"]).
+* 최소 500개의 예제를 목표로 합니다.
+* 프롬프트 + 완료가 구분 기호를 포함하여 2048개의 토큰을 초과하지 않는지 확인합니다.
+* 예제가 고품질인지, 원하는 형식을 따르는지 확인합니다.
+* 미세 조정에 사용되는 데이터셋가 모델이 사용될 대상과 구조 및 작업 유형이 매우 유사한지 확인합니다.
+* 낮은 학습률과 1-2 에포크만 사용하는 것이 이러한 사용 사례에 더 효과적인 경향이 있습니다.
 
-##### 케이스 스터디 1.
+##### 사례 연구: 위키피디아를 기반으로 매력적인 광고 작성하기
+
+이것은 생성형 사용 사례이므로 제공한 표본이 최상의 품질인지 확인하려고 합니다.
+미세 조정된 모델이 주어진 예제의 스타일(및 실수)을 모방하려고 하기 때문입니다.
+좋은 출발점은 약 500개의 예시입니다.
+샘플 데이터셋은 다음과 같습니다:
+
+```jsonlines
+{"prompt":"<Product Name>\n<Wikipedia description>\n\n###\n\n", "completion":" <engaging ad> END"}
+```
+
+예시 데이터는 다음과 같습니다:
+
+```jsonlines
+{"prompt":"Samsung Galaxy Feel\nThe Samsung Galaxy Feel is an Android smartphone developed by Samsung Electronics exclusively for the Japanese market. The phone was released in June 2017 and was sold by NTT Docomo. It runs on Android 7.0 (Nougat), has a 4.7 inch display, and a 3000 mAh battery.\nSoftware\nSamsung Galaxy Feel runs on Android 7.0 (Nougat), but can be later updated to Android 8.0 (Oreo).\nHardware\nSamsung Galaxy Feel has a 4.7 inch Super AMOLED HD display, 16 MP back facing and 5 MP front facing cameras. It has a 3000 mAh battery, a 1.6 GHz Octa-Core ARM Cortex-A53 CPU, and an ARM Mali-T830 MP1 700 MHz GPU. It comes with 32GB of internal storage, expandable to 256GB via microSD. Aside from its software and hardware specifications, Samsung also introduced a unique a hole in the phone's shell to accommodate the Japanese perceived penchant for personalizing their mobile phones. The Galaxy Feel's battery was also touted as a major selling point since the market favors handsets with longer battery life. The device is also waterproof and supports 1seg digital broadcasts using an antenna that is sold separately.\n\n###\n\n", "completion":"Looking for a smartphone that can do it all? Look no further than Samsung Galaxy Feel! With a slim and sleek design, our latest smartphone features high-quality picture and video capabilities, as well as an award winning battery life. END"}
+```
+
+여기서는 위키백과 기사에 여러 문단과 제목이 포함되어 있기 때문에 다중 줄 구분 기호를 사용했습니다.
+또한 모델이 `완료`의 종료 시점을 알 수 있도록, 간단한 `END` 를 토큰으로 사용했습니다.
+
+
+##### 사례 연구: 개체 추출하기
+
+이것은 언어 변환 작업과 유사합니다. 
+성능을 향상시키려면 추출된 여러 개체를 알파벳 순으로 정렬하거나 
+원래 텍스트에 나타나는 순서와 동일하게 정렬하는 것이 좋습니다. 
+이는 모델이 순서대로 생성해야 하는 모든 개체를 추적하는 데 도움이 됩니다. 
+데이터셋은 다음과 같이 표시될 수 있습니다:
+
+```jsonlines
+{"prompt":"<any text, for example news article>\n\n###\n\n", "completion":" <list of entities, separated by a newline> END"}
+```
+예시 데이터는 다음과 같습니다:
+
+
+```jsonlines
+{"prompt":"Portugal will be removed from the UK's green travel list from Tuesday, amid rising coronavirus cases and concern over a \"Nepal mutation of the so-called Indian variant\". It will join the amber list, meaning holidaymakers should not visit and returnees must isolate for 10 days...\n\n###\n\n", "completion":" Portugal\nUK\nNepal mutation\nIndian variant END"}
+```
+
+텍스트에 여러 줄이 포함될 가능성이 높기 때문에 다중 줄 구분 기호를 사용하는 것이 좋습니다.
+뉴스 기사, 위키피디아 페이지, 트윗, 법률 문서 등과 같은 유형의 입력값 `프롬프트`에서 
+개체를 추출해야하는 경우 가장 이상적으로 사용할 수 있습니다.
+
+
+##### 사례 연구: 고객 지원 챗봇 만들기
+
+챗봇은 다음 항목들을 잘 파악해야한다.
+1. 상세 대화 내용(주문 세부 정보 등)
+2. 전체 대화 내용
+3. 최근 메시지 내용
+
+이 사용 사례에서는 같은 대화 내역으로 다양한 대답을 생성해야합니다.
+매 답변마다 아주 조금씩 맥락이 달라야 합니다.
+이 사용 사례의 모델은 다양한 유형의 고객 문제를 처리하기 위해 사용될 것입니다. 
+따라서 수천 가지의 예제가 필요합니다.
+챗봇 대화 품질을 위해, 대화 샘플을 면밀히 검토하는 것이 좋습니다. 
+별도의 "텍스트 변환 미세 조정 모델"을 통해 요약 텍스트를 추가하여 입력 값으로 사용해볼 수 있습니다.
+
+데이터셋은 다음과 같이 표시할 수 있습니다:
+
+```jsonlines
+{"prompt":"Summary: <summary of the interaction so far>\n\nSpecific information:<for example order details in natural language>\n\n###\n\nCustomer: <message1>\nAgent: <response1>\nCustomer: <message2>\nAgent:", "completion":" <response2>\n"}
+{"prompt":"Summary: <summary of the interaction so far>\n\nSpecific information:<for example order details in natural language>\n\n###\n\nCustomer: <message1>\nAgent: <response1>\nCustomer: <message2>\nAgent: <response2>\nCustomer: <message3>\nAgent:", "completion":" <response3>\n"}
+```
+
+여기서는 의도적으로 서로 다른 유형의 입력 정보를 분리했지만
+`프롬프트`와 `완료` 사이에 동일한 형식의 고객-직원 대화 형식을 유지했습니다.
+모든 `완료`는 직원에 의해서만 이루어져야 하며, 모델이 추론할 때 `\n`을 정지 시퀀스로 사용할 수 있습니다.
+
+##### 사례 연구: 제품 상세정보를 기반으로 한 제품 설명 작성하기
+
+이 사용 사례에서는 입력 데이터를 자연어로 변환하는 것이 중요합니다.
+자연어 변환이 잘 될 수록, 원하는 결과물을 얻을 가능성이 높아집니다.
+
+예를 들어 다음과 같은 형식을 사용할 수 있습니다:
+
+```jsonlines
+{"prompt":"Item=handbag, Color=army_green, price=$99, size=S->", "completion":" This stylish small green handbag will add a unique touch to your look, without costing you a fortune."}
+```
+
+다음과 같이 잘 작동하지 않음:
+
+```jsonlines
+{"prompt":"Item is a handbag. Colour is army green. Price is midrange. Size is small.->", "completion":" This stylish small green handbag will add a unique touch to your look, without costing you a fortune."}
+```
+
+결과물 품질을 높이려면, `완료`의 내용이 제공된 설명에 맞게 작성되었는지 확인하세요.
+외부 콘텐츠를 자주 참조하시나요?
+자동화 툴을 사용해 외부 콘텐츠들을 추가한다면 생산성을 향상시킬 수 있습니다.
+이미지 기반 설명 글을 생성하고 싶나요?
+이미지 속 원문 설명을 추출하는 알고리즘을 사용하면 도움을 받을 수 있습니다.
+`완료`가 한 문장 밖에 되지 않기 때문에, 정지 시퀀스로 `.`를 모델이 추론하는 데에 사용할 수 있습니다.
 
 ## 고급 사용법
 
@@ -271,7 +546,7 @@ openai.Model.delete(FINE_TUNED_MODEL)
 
 ## 비중 과 편향
 
-미세 조정을 가중치 & 바이어스와 동기화하여 실험, 모델 및 데이터 세트를 추적할 수 있습니다.
+미세 조정을 가중치 & 바이어스와 동기화하여 실험, 모델 및 데이터셋를 추적할 수 있습니다.
 
 시작하려면 가중치 & 바이어스 계정과 유료 OpenAI 요금제가 필요합니다. 최신 버전의 openai와 wandb를 사용하고 있는지 확인하려면 다음을 실행합니다:
 
@@ -302,3 +577,5 @@ openai wandb sync
 [open_ai_playground]: https://platform.openai.com/playground
 
 [open_ai_files]: https://platform.openai.com/docs/api-reference/files
+
+[open_ai_tokenizer]: https://platform.openai.com/tokenizer
