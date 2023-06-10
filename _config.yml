@@ -1,4 +1,5 @@
 title: Eunice Hong
+repository: eunice-hong/blog
 email: contact@eunice-hong.com
 description: >-
   Welcome to my blog. I write about software engineering, books, and life.
@@ -11,6 +12,8 @@ plugins:
   - jemoji
   - jekyll-paginate-v2
 
+url: "https://blog.eunice-hong.com"
+baseurl: "" # the subpath of your site, e.g. /blog
 permalink: /:title/
 
 languages: [ "ko", "en" ]
