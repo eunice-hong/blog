@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 블록체인 이론과 합의 메커니즘 소개
+title: 블록체인 이론과 합의 메커니즘 소개: Solidity 10일 챌린지 - 02일차
 date:   2023-06-10 23:01:00 +0900
 image: /assets/images/eunice-hong-opengraph.jpg
 headerImage: false
