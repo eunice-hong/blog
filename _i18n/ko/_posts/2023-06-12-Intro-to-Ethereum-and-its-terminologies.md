@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 이더리움과 관련 용어 소개: Solidity 10일 챌린지 - 03일차
+title: "이더리움과 관련 용어 소개: Solidity 10일 챌린지 - 03일차"
 date:   2023-06-12 23:01:00 +0900
 image: /assets/images/eunice-hong-opengraph.jpg
 headerImage: false

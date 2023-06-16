@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ERC-20 컨트랙 직접 생성하기: Solidity 10일 챌린지 - 05일차
+title: "ERC-20 컨트랙 직접 생성하기: Solidity 10일 챌린지 - 05일차"
 date:   2023-06-14 23:01:00 +0900
 image: /assets/images/eunice-hong-opengraph.jpg
 headerImage: false
