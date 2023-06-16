@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 관련 라이브러리와 제플린 사용하기: Solidity 10일 챌린지 - 06일차
+title: "관련 라이브러리와 제플린 사용하기: Solidity 10일 챌린지 - 06일차"
 date:   2023-06-15 23:01:00 +0900
 image: /assets/images/eunice-hong-opengraph.jpg
 headerImage: false

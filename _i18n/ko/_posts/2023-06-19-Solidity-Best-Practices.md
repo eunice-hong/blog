@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Solidity 모범 사례: Solidity 10일 챌린지 - 10일차
+title: "Solidity 모범 사례: Solidity 10일 챌린지 - 10일차"
 date:   2023-06-19 23:01:00 +0900
 image: /assets/images/eunice-hong-opengraph.jpg
 headerImage: false

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ERC-721 컨트랙 직접 생성하기: Solidity 10일 챌린지 - 07일차
+title: "ERC-721 컨트랙 직접 생성하기: Solidity 10일 챌린지 - 07일차"
 date:   2023-06-10 23:01:00 +0900
 image: /assets/images/eunice-hong-opengraph.jpg
 headerImage: false
