@@ -46,7 +46,7 @@ eventApproval(address indexed tokenOwner, address indexed spender, uint tokens);
 
 #### 토큰의 이름, 기호 및 십진수 할당
 
-- 이벤트를 선언한 후 토큰에 대한 기호, 이름 및 십진수 할당으로 넘어갑니다:
+- 이벤트를 선언한 후 토큰에 대한 기호, 이름 및 (십진수/소수점) 할당으로 넘어갑니다:
 
 ```solidity
 string public constant name = "VOH Coin";
@@ -88,25 +88,24 @@ uint256 totalSupply_;
 
 ```solidity
 constructor(uint256 total) {
-  totalSupply_ = total;
-  balances[msg.sender] = totalSupply_;
+    totalSupply_ = total;
+    balances[msg.sender] = totalSupply_;
 }
 ```
 
-- 위의 코드에서, 우리는 우리가 계약에서 원하는 총 토큰 수(총)로 생성자를 부른다. 총계는 totalSupply_와 같고 배포 `address`의 잔액은 총 토큰과 같습니다. 현재 실행 중인 계약 기능의 이더리움 계정은 msg.sender 변수에 저장됩니다.
+- 위의 코드에서, 우리는 우리가 계약에서 원하는 총 토큰 수(총)로 생성자를 부른다. 총계는 totalSupply_와 같고 배포 `address`의 잔액은 총 토큰과 같습니다. 현재 실행 중인 계약 함수의 이더리움 계정은 `msg.sender` 변수에 저장됩니다.
 
 #### 소유자 잔액 획득
 
-- 이제 방법의 균형을 사용하겠습니다:
+- `balanceOf` 함수를 사용해보겠습니다:
 
 ```solidity
-  `functionbalanceOf(address tokenOwner)publicviewreturns(uint){
+function balanceOf(address tokenOwner) public view returns (uint) {
   return balances[tokenOwner];
 }
 ```
 
-
-- 토큰 소유자는 이 절차에 대한 인수입니다. 이 매개 변수는 토큰 소유자의 `address`이며, 계약에서 토큰의 잔액을 환불하고자 합니다. 결과적으로 이 절차는 잔액에서 토큰 소유자 `address`를 찾아 잔액을 검색합니다.
+- `tokenOwner`는 위 함수에서 사용되는 인수로, 토큰 소유자의 주소입니다. 이 계약에서 토큰의 잔액을 환불할 때 사용합니다. 결과적으로 이 함수는 `balances`에서 토큰 소유자 `address`를 사용해, 잔액을 검색합니다.
 
 #### 원하는 계정으로 토큰 전송
 
@@ -119,71 +118,72 @@ function transfer(address receiver, uint numTokens) public returns (bool) {
   balances[receiver] += numTokens;
   emit Transfer(msg.sender, receiver, numTokens);
   return true;
-  }
+}
 ```
 
-이 메서드는 다음 인수로 구성됩니다:
+이 함수는 다음 인수로 구성됩니다:
 
-- 수신자인 토큰을 받을 계정 `address`
-- 수신자 계정으로 보낼 토큰의 양(Num)토큰
-- 메소드의 본문은 배포자의 `address` 균형에 따라 수신자에게 제공될 토큰의 양이 충분한지 확인하는 검사를 포함합니다.
-- 그런 다음 numToken은 배포자의 계정에서 공제되고 수신자 계정으로 크레딧됩니다. 그런 다음 전송 이벤트가 실행됩니다. 마지막으로 true는 부울 값으로 반환됩니다.
+- `receiver`: 토큰을 받을 계정 `address`
+- `numTokens`: 수신자 계정으로 보낼 토큰의 양(Num)토큰
+- 함수 안에서 배포자의 `address` 잔액에 따라 수신자에게 제공될 토큰의 양이 충분한지 확인합니다.
+- 그런 다음 배포자의 계정에서 `numToken`만큼 차감되고, 해당 분은 수신자 계정에 가산됩니다. 전송 이벤트가 실행되고, 부울 값 `true`가 반환되며 마무리됩니다.
 
 #### 토큰 전송 승인
 
-- 이제 승인 방법을 사용하겠습니다.
+- `approve` 함수를 사용해보겠습니다.
 
 ```solidity
 function approve(address delegate, uint numTokens) public returns(bool) {
 
-allowed[msg.sender][delegate]= numTokens;
-
-emit Approval(msg.sender, delegate, numTokens);
-
-return true;
+    allowed[msg.sender][delegate]= numTokens;
+    
+    emit Approval(msg.sender, delegate, numTokens);
+    
+    return true;
 
 }
 ```
 
-- 이 절차에 대한 입력은 대리인 및 numToken입니다.
-- delegate는 배포자가 보낼 수 있는 토큰 수를 설정할 `address`입니다
-- numTokens는 배포자가 대리자에게 보낼 수 있는 토큰 수입니다
-- 토큰 수를 설정하기 위해 메서드 본문에서 허용된 매핑의 대리자 맵을 참조합니다. 그런 다음 Approval 이벤트가 전송되고 true가 반환됩니다.
+- `delegate`와 `numTokens`은 함수의 인자입니다.
+- `delegate`는 배포자가 보낼 수 있는 토큰 수를 설정할 `address`입니다.
+- `numTokens`는 배포자가 `delegate`에게 보낼 수 있는 토큰 수를 의미합니다.
+- 함수 내부적으로는 `allowed` 매핑에서 `delegate`을 이용해, 토큰 수를 저장합니다. 그런 다음 Approval 이벤트가 전송되고 true가 반환되며 마무리됩니다.
 
 #### 원하는 계정의 허용 상태 획득
 
-- 우리는 다음과 같은 방법을 사용하여 진행합니다:
+- `allowance` 함수를 사용해보겠습니다.
 
 ```solidity
 function allowance(address owner, address delegate) public view returns(uint){
-return allowed[owner][delegate];
+    return allowed[owner][delegate];
 }
 ```
-이 메서드는 다음 인수로 구성됩니다:
+이 함수는 다음 인수로 구성됩니다:
 
-- 소유자와 대리인. owner는 대리인의 수신자에게 전송할 수 있는 토큰 수를 반환하는 `address`입니다.
+- `owner`와 `delegate`. `owner`는 `delegate`에 있는 수신자에게 전송 가능한 토큰 수를 반환하는 `address`입니다.
 
 #### 한 계정에서 다른 계정으로 토큰 전송
 
-이제 전송 메커니즘에 대한 논리를 다음과 같이 작성합니다:
+- 토큰 전송 로직은 다음과 같이 작성합니다:
 
 ```solidity
 function transferFrom(address owner, address buyer, uint numTokens) public returns (bool) {
-require(numTokens <= balances[owner]);
-require(numTokens <= allowed[owner][msg.sender]);
-balances[owner] -= numTokens;
-allowed[owner][msg.sender] -= numTokens;
-balances[buyer] += numTokens;
-emit Transfer(owner, buyer, numTokens);
-return true;
+    require(numTokens <= balances[owner]);
+    require(numTokens <= allowed[owner][msg.sender]);
+    balances[owner] -= numTokens;
+    allowed[owner][msg.sender] -= numTokens;
+    balances[buyer] += numTokens;
+    emit Transfer(owner, buyer, numTokens);
+    return true;
 }
 ```
 
-**transferFrom**에는 **owner**, **buyerandnumTokens**이라는 인수가 있습니다.
+함수 **transferFrom**는 **owner**, **buyer***, ***numTokens**이라는 인수가 있습니다.
 
-- `numTokens`이 이전될 잔액의 `address`는 소유자이고 numToken이 입금될 잔액의 `address`는 구매자입니다. 소유자에서 구매자로 전송될 토큰 수가 `numTokens`.
-- 먼저 소유자의 잔액이 충분한지, 소유자가 메소드 본체의 구매자에게 해당 수량의 토큰을 전송할 권한이 있는지 확인합니다.
-- 이후 소유자 잔액에서 토큰 수를 없애고 인가된 잔액을 제거해 양도를 완료합니다. 구매자의 잔액은 구매한 토큰 수만큼 증가합니다. 전송 이벤트가 발생하고 반환된 값이 참입니다.
+- `owner`는 토큰 출금 대상 계좌의 주소를 나타내고, `buyer`는 토큰 입금 대상 계좌의 주소를 나타냅니다. `numTokens`은 `owner`가 `buyer`에게 전송할 토큰의 수를 나타냅니다.
+- 먼저 함수 내부에서 `owner`의 잔액이 충분한지, `owner`가 `buyer`에게 해당 수량의 토큰을 전송할 권한이 있는지 확인합니다.
+ the transfer is made by removing the number of tokens from the owner's balance and the authorized balance to complete the transfer. 
+- 이후, `owner` 잔액에서 토큰 수를 차감하고, 인가된 잔액을 제거해 토큰이 전송됩니다. `buyer`의 잔액은 구매한 토큰 수만큼 증가합니다. `Transfer` 이벤트가 발생하고 `true` 값이 반환됩니다.
 
 ## 최종 코드
 
