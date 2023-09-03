@@ -8,8 +8,17 @@
 
 ## Run Locally
 
+Update bundler
+
 ```bash
-bundle exec jekyll serve
+bundle update --bundler
+```
+
+Build and serve locally
+
+```bash
+bundle exec jekyll build --drafts
+bundle exec jekyll serve --drafts
 ```
 
 ## Roadmap
