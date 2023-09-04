@@ -8,8 +8,17 @@
 
 ## 로컬 환경에서 실행하기
 
+Bundle 업데이트
+
 ```bash
-bundle exec jekyll serve
+bundle update --bundler
+```
+
+로컬에서 빌드 및 서비스
+
+```bash
+bundle exec jekyll build --drafts
+bundle exec jekyll serve --drafts
 ```
 
 ## 로드맵
