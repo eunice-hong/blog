@@ -7,8 +7,7 @@ headerImage: false
 ---
 
 
-<iframe width="420" height="315" src="https://youtu.be/WRkig3VeRLY?si=LiswwrRTCH3dMAH6" frameborder="0"> </iframe>
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/WRkig3VeRLY?si=hvKzEL8rOl6Eomb6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 > 위 유튜브 영상 속 Chat GPT 프롬프팅 패턴을 익히기 위해 작성하는 글입니다.
 > 프롬프트 예시는 이후 활용을 위해 영어로 작성합니다.
 
@@ -119,8 +118,7 @@ and provide one or more alternative wordings of the question that you could answ
 Chat GPT는 척척박사처럼 답변을 해줍니다.
 하지만, Chat GPT가 답변을 해주기 위해서는 우리가 질문을 잘 작성해야합니다.
 
-
-<iframe width="420" height="315" src="https://youtu.be/MO0r930Sn_8?si=ejem3RTT88IMRWBP" frameborder="0"> </iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MO0r930Sn_8?si=c2Xy7UraueGeG1YJ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 세상 모든 걸 쉽게 설명할 수 있는 리처드 파인만도 '왜?'라는 질문은 어려워합니다.
 질문하는 사람이 질문에 대해 얼만큼 알고 있는 지에 따라, 답변의 내용이 천차만별로 달라질 수 있기 때문입니다.
