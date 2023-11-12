@@ -9,6 +9,7 @@ tag:
 category: book
 author: eunice-hong
 description: 이더리움과 관련 용어 소개
+languages: ["ko"]
 ---
 
 # 3일차: 이더리움과 그 용어 소개

@@ -9,6 +9,7 @@ tag:
 category: book
 author: eunice-hong
 description: 블록체인 이론과 합의 메커니즘 소개
+languages: ["ko"]
 ---
 
 # **2일차: 블록체인 이론 및 합의 메커니즘 소개**

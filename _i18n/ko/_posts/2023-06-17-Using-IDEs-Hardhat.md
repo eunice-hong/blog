@@ -9,16 +9,18 @@ tag:
 category: book
 author: eunice-hong
 description: 하드햇 환경 설정
+languages: ["ko"]
 ---
+
 Solidity 스마트 계약을 처음부터 구축하는 직접적인 경험을 쌓았으니, 이제는 Remix로부터 벗어나 업계 표준에 적응해야할 때입니다. 
-[Truffle][truffle]과 [Hardhat][hardhat](이하 하드햇)은 업계를 선도하는 서비스로, 
+[Truffle][truffle]과 [Hardhat][hardhat](이하%20하드햇)은 업계를 선도하는 서비스로, 
 단위 테스트, 노드 연결, 프론트엔드와의 통합 등을 위한 기능을 제공합니다. 
 이번 글에서는 스마트 계약 개발자로서 유용하게 사용할 수 있는 하드햇의 몇 가지 멋진 기능을 설정해보고 살펴보겠습니다.
 
 # 하드햇 환경 설정
 
 이 튜토리얼을 최대한 활용하기 위해, 하드햇 환경을 자체 노드, MetaMask 지갑과 연결합니다. 
-자체 노드는 [Alchemy][alchemy](이하 알케미)를 이용합니다.
+자체 노드는 [Alchemy][alchemy](이하%20알케미)를 이용합니다.
 
 **기본 준비사항**
 
