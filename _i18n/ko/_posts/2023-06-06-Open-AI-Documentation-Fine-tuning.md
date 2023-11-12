@@ -10,7 +10,7 @@ tag:
 category: book
 author: eunice-hong
 description: Open AI 문서 미세 조정(Fine-tuning)을 한국어로 읽어봅니다. 오역, 의역이 있을 수 있습니다.
-
+languages: ["ko"]
 ---
 
 > 내 입맛에 맞게 모델을 변경하는 방법에 대해 알아봅니다.

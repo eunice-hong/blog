@@ -9,6 +9,7 @@ tag:
 category: book
 author: eunice-hong
 description: ERC-721 계약을 작성하는 방법과 NFT의 중요성에 대해 알아봅시다.
+languages: ["ko"]
 ---
 
 NFT는 이제 세계를 휩쓸고 있습니다!

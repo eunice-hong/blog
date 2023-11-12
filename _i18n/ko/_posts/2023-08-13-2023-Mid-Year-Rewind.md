@@ -9,7 +9,9 @@ tag:
 category: review
 author: eunice-hong
 description: 2023년도 상반기, 정확히는 봄/여름에 있었던 일들을 정리합니다.
+languages: ["ko"]
 ---
+
 **목차**
 
 1. [블로그에 글 10개 이상 등록](#블로그에-글-10개-이상-등록) 

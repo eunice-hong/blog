@@ -1,39 +1,56 @@
-<nav class="{% if page.title == "Home" %}nav-home{% else %}nav{% endif %}">
+<nav class="{% if page.title == " Home" %}nav-home{% else %}nav{% endif %}">
     <ul class="list">
         {% if page.title != "Home" %}
-            <li class="item">
-                <a class="link" href="{{ site.url }}/">Home</a>
-            </li>
+        <li class="item">
+            {% if site.lang == site.default_lang %}
+            <a class="link" href="{{ site.url }}">Home</a>
+            {% else %}
+            <a class="link" href="{{ site.url }}/{{ site.lang }}">Home</a>
+            {% endif %}
+        </li>
         {% endif %}
 
         {% if site.blog == true %}
-            {% if page.title != "Blog" %}
-                <li class="item">
-                    <a class="link" href="{{ site.url }}/blog">Blog</a>
-                </li>
+        {% if page.title != "Blog" %}
+        <li class="item">
+            {% if site.lang == site.default_lang %}
+            <a class="link" href="{{ site.url }}/blog">Blog</a>
+            {% else %}
+            <a class="link" href="{{ site.url }}/{{ site.lang }}/blog">Blog</a>
             {% endif %}
+        </li>
+        {% endif %}
         {% endif %}
 
         {% if site.projects == true %}
-            {% if page.title != "Projects" %}
-                <li class="item">
-                    <a class="link" href="{{ site.url }}/projects">Projects</a>
-                </li>
+        {% if page.title != "Projects" %}
+        <li class="item">
+            {% if site.lang == site.default_lang %}
+            <a class="link" href="{{ site.url }}/projects">Projects</a>
+            {% else %}
+            <a class="link" href="{{ site.url }}/{{ site.lang }}/projects">Projects</a>
             {% endif %}
+        </li>
+        {% endif %}
         {% endif %}
 
         {% if site.about == true %}
-            {% if page.title != "About" %}
-                <li class="item">
-                    <a class="link" href="{{ site.url }}/about">About</a>
-                </li>
+        {% if page.title != "About" %}
+        <li class="item">
+            {% if site.lang == site.default_lang %}
+            <a class="link" href="{{ site.url }}/about">About</a>
+            {% else %}
+            <a class="link" href="{{ site.url }}/{{ site.lang }}/about">About</a>
             {% endif %}
+        </li>
+        {% endif %}
         {% endif %}
 
         {% if site.resume == true %}
-            <li class="item">
-                <a class="link" href="{% if site.resume-external %}{{ site.resume-url }}{% else %}{{ site.url }}/{{ site.resume-url }}{% endif %}">Résumé</a>
-            </li>
+        <li class="item">
+            <a class="link"
+                href="{% if site.resume-external %}{{ site.resume-url }}{% else %}{{ site.url }}/{{ site.resume-url }}{% endif %}">Résumé</a>
+        </li>
         {% endif %}
     </ul>
 </nav>

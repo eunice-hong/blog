@@ -9,6 +9,7 @@ tag:
 category: book
 author: eunice-hong
 description: 리믹스를 이용한 헬로 월드 계약 작성
+languages: ["ko"]
 ---
 
 # 4일차: 리믹스를 이용한 헬로 월드 계약 작성
