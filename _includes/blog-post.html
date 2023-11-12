@@ -1,6 +1,15 @@
 <div class="item {% if post.star %}star{% endif %}">
+    {% if site.lang == site.default_lang %}
     <a class="url" href="{{ site.url }}{{ post.url }}">
-        <aside class="date"><time datetime="{{ post.date | date:"%d-%m-%Y" }}">{{ post.date | date: "%b %d %Y" }}</time></aside>
+        <aside class="date"><time datetime="{{ post.date | date:" %d-%m-%Y" }}">{{ post.date | date: "%b %d %Y"
+                }}</time></aside>
         <h3 class="title">{{ post.title }}</h3>
     </a>
+    {% else %}
+    <a class="url" href="{{ site.url }}/{{ site.lang }}{{ post.url }}">
+        <aside class="date"><time datetime="{{ post.date | date:" %d-%m-%Y" }}">{{ post.date | date: "%b %d %Y"
+                }}</time></aside>
+        <h3 class="title">{{ post.title }}</h3>
+    </a>
+    {% endif %}
 </div>
