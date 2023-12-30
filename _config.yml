@@ -16,11 +16,12 @@ url: "https://blog.eunice-hong.com"
 baseurl: "" # the subpath of your site, e.g. /blog
 permalink: /:title/
 
-languages: [ "ko", "en" ]
+languages: [ "ko", "ja", "en" ]
 defaultLang: ko
 languageNames:
   ko: 한국어
   en: English
+  ja: 日本語
 
 exclude: [
   "Gemfile",
